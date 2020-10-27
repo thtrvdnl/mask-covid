@@ -1,8 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Mask App</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'mask/style.css'%}">
 </head>
 <body>
     <form action="", method="POST">
@@ -10,9 +12,11 @@
         <input type="submit">
         {% csrf_token %}
     </form>
-
+    <h1>Hopa</h1>
     {% for image_url in image_urls %}
+        <img src="{{ image_url.image_url }}" alt="">
         <div> {{ image_url.image_url }}</div>
     {% endfor %}
+
 </body>
 </html>

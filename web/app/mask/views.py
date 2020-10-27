@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . import models
 
 
@@ -9,6 +9,8 @@ def index(request):
         url = models.Url.objects.create(image_url=request.POST.get('image_url', ''))
 
         url.save()
+
+        return redirect('/mask')
 
     urls = models.Url.objects.all()
 
