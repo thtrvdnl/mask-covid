@@ -11,6 +11,8 @@
         {% csrf_token %}
     </form>
 
-    {{data}}
+    {% for image_url in image_urls %}
+        <div> {{ image_url.image_url }}</div>
+    {% endfor %}
 </body>
 </html>
