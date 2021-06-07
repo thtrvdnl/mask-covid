@@ -142,8 +142,10 @@ async def offer(request):
         def on_datachannel(channel):
             @channel.on("message")
             def on_message(message):
-                if isinstance(message, str) and message.startswith("mask") and Predict.mask is not None:
-                    channel.send('Predict {:.2f}'.format(Predict.mask))
+                # if isinstance(message, str) and message.startswith("mask") and Predict.mask is not None:
+                #     channel.send('Predict {:.2f}'.format(Predict.mask))
+                if isinstance(message, str) and message.startswith("mask"):
+                    channel.send('Predict Mask 100')
 
         @pc.on("iceconnectionstatechange")
         async def on_iceconnectionstatechange():
