@@ -15,9 +15,9 @@ function createPeerConnection() {
         sdpSemantics: 'unified-plan'
     };
 
-    if (document.getElementById('use-stun').checked) {
-        config.iceServers = [{urls: ['stun:stun.l.google.com:19302']}];
-    }
+    // if (document.getElementById('use-stun').checked) {
+    //     config.iceServers = [{urls: ['stun:stun.l.google.com:19302']}];
+    // }
 
     pc = new RTCPeerConnection(config);
 
@@ -70,10 +70,10 @@ function negotiate() {
         var offer = pc.localDescription;
         var codec;
 
-        codec = document.getElementById('audio-codec').value;
-        if (codec !== 'default') {
-            offer.sdp = sdpFilterCodec('audio', codec, offer.sdp);
-        }
+        // codec = document.getElementById('audio-codec').value;
+        // if (codec !== 'default') {
+        //     offer.sdp = sdpFilterCodec('audio', codec, offer.sdp);
+        // }
 
         codec = document.getElementById('video-codec').value;
         if (codec !== 'default') {
@@ -129,24 +129,19 @@ function start() {
         dc.onopen = function() {
             dataChannelLog.textContent += '- open\n';
             dcInterval = setInterval(function() {
-                var message = 'ping ' + current_stamp();
+                var message = 'mask ' + current_stamp();
                 dataChannelLog.textContent += '> ' + message + '\n';
                 dc.send(message);
             }, 1000);
         };
         dc.onmessage = function(evt) {
             dataChannelLog.textContent += '< ' + evt.data + '\n';
-
-            if (evt.data.substring(0, 4) === 'pong') {
-                var elapsed_ms = current_stamp() - parseInt(evt.data.substring(5), 10);
-                dataChannelLog.textContent += ' RTT ' + elapsed_ms + ' ms\n';
-            }
         };
     }
 
     var constraints = {
-        audio: document.getElementById('use-audio').checked,
-        video: false
+        // audio: document.getElementById('use-audio').checked,
+        video: document.getElementById('use-video').checked
     };
 
     if (document.getElementById('use-video').checked) {
