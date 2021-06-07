@@ -14,6 +14,7 @@
       }
 
       .wrapper {
+        min-height: 100vh;
         background-color: #eee;
         padding: 15px 30px;
         display: flex;
@@ -23,11 +24,25 @@
 
       .section {
         position: relative;
+        width: 100%;
+        max-width: 1020px;
         padding: 15px 30px;
-        margin-bottom: 20px;
+        margin-bottom: 60px;
         border-radius: 20px;
         background-color: #fff;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.35);
+      }
+
+      .section-body {
+        padding: 10px 20px;
+      }
+
+      .section-data {
+        height: 420px;
+      }
+
+      .section-secondary {
+        display: none;
       }
 
       .section:last-child {
@@ -74,24 +89,64 @@
         background-color: rgb(180, 30, 30);
         width: 130px;
         height: 30px;
-        border-radius: 20px;
-				cursor: pointer;
+        border-radius: 10px;
+        cursor: pointer;
+        transition-property: transform, box-shadow;
+        transition-duration: 0.2s;
+        transition-timing-function: ease;
       }
 
-			.section-btn#start {
-				background-color: rgb(60, 180, 30);
-			}
+      .section-btn:hover {
+        transform: scale(1.01);
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+      }
 
-			.section-btn#stop {
-				background-color: rgb(180, 30, 30);
-			}
+      .section-btn#start {
+        background-color: rgb(60, 180, 30);
+      }
+
+      .section-btn#stop {
+        display: none;
+        background-color: rgb(180, 30, 30);
+      }
 
       .section-btn-content {
-				font-size: 18px;
-				font-weight: 400;
-				color: white;
-				letter-spacing: 1px;
+        font-size: 18px;
+        font-weight: 400;
+        color: white;
+        letter-spacing: 1px;
       }
+
+      #video {
+        width: 100%;
+        border-radius: 20px;
+      }
+
+			#media {
+				position: relative;
+			}
+
+			#media .backplate {
+				position: absolute;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				top: 10px;
+				left: 20px;
+				padding: 5px;
+				width: 250px;
+				height: 40px;
+				border-radius: 20px;
+				border-bottom-left-radius: 0;
+				border-top-right-radius: 0;
+				background-color: rgba(0, 0, 0, 0.35)
+			}
+
+			#media .backplate #mask-value {
+				font-size: 22px;
+				color: white;
+				letter-spacing: 2px;
+			}
     </style>
   </head>
   <body>
@@ -153,50 +208,61 @@
           <button class="section-btn" id="start" onclick="start()">
             <span class="section-btn-content">Start</span>
           </button>
-          <button
-            class="section-btn"
-            id="stop"
-            style="display: none"
-            onclick="stop()"
-          >
+          <button class="section-btn" id="stop" onclick="stop()">
             <span class="section-btn-content">Stop</span>
           </button>
         </div>
       </section>
+
+      <section class="section section-state">
+        <h2 class="section-header">State</h2>
+        <div class="section-underline section-underline-top"></div>
+        <div class="section-body">
+          <p class="section-params">
+            ICE gathering state: <span id="ice-gathering-state"></span>
+          </p>
+          <p class="section-params">
+            ICE connection state: <span id="ice-connection-state"></span>
+          </p>
+          <p class="section-params">
+            Signaling state: <span id="signaling-state"></span>
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-data section-secondary">
+        <h2 class="section-header">Data channel</h2>
+        <div class="section-underline section-underline-top"></div>
+        <div class="section-body">
+          <pre
+            id="data-channel"
+            style="height: 300px; overflow-y: scroll"
+          ></pre>
+        </div>
+      </section>
+
+      <section class="section section-media section-secondary">
+        <h2 class="section-header">Media</h2>
+        <div class="section-underline section-underline-top"></div>
+        <div id="media" class="section-body">
+          <audio id="audio" autoplay="true"></audio>
+          <video id="video" autoplay="true" playsinline="true"></video>
+					<div class="backplate">
+						<span id="mask-value" class="backplate-data"></span>
+					</div>
+        </div>
+      </section>
+
+      <section class="section section-sdp section-secondary">
+        <h2 class="section-header">SDP</h2>
+        <div class="section-underline section-underline-top"></div>
+        <h3>Offer</h3>
+        <pre id="offer-sdp" style="max-width: 100%;"></pre>
+
+        <h3>Answer</h3>
+        <pre id="answer-sdp" style="max-width: 100%;"></pre>
+      </section>
     </div>
-
-    <h2>State</h2>
-    <p>ICE gathering state: <span id="ice-gathering-state"></span></p>
-    <p>ICE connection state: <span id="ice-connection-state"></span></p>
-    <p>Signaling state: <span id="signaling-state"></span></p>
-
-    <div id="media" style="display: none; position: relative">
-      <h2>Media</h2>
-
-      <audio id="audio" autoplay="true"></audio>
-      <video id="video" autoplay="true" playsinline="true"></video>
-      <h2>Data channel</h2>
-      <pre
-        id="data-channel"
-        style="
-          height: 200px;
-          position: absolute;
-          top: 0;
-          left: 0;
-          background: transparent;
-          color: white;
-        "
-      ></pre>
-    </div>
-
-    <h2>SDP</h2>
-
-    <h3>Offer</h3>
-    <pre id="offer-sdp"></pre>
-
-    <h3>Answer</h3>
-    <pre id="answer-sdp"></pre>
-
     <script src="client.js"></script>
   </body>
 </html>
